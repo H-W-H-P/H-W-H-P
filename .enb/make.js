@@ -7,19 +7,19 @@ const techs = {
         borschik: require('enb-borschik/techs/borschik'),
 
         // css
-        postcss: require('enb-postcss/techs/enb-postcss'),
-        postcssPlugins: [
-            require('postcss-import')(),
-            require('postcss-each'),
-            require('postcss-for'),
-            require('postcss-simple-vars')(),
-            require('postcss-calc')(),
-            require('postcss-nested'),
-            require('rebem-css'),
-            require('postcss-url')({ url: 'rebase' }),
-            require('autoprefixer')(),
-            require('postcss-reporter')()
-        ],
+        // postcss: require('enb-postcss/techs/enb-postcss'),
+        // postcssPlugins: [
+        //     require('postcss-import')(),
+        //     require('postcss-each'),
+        //     require('postcss-for'),
+        //     require('postcss-simple-vars')(),
+        //     require('postcss-calc')(),
+        //     require('postcss-nested'),
+        //     require('rebem-css'),
+        //     require('postcss-url')({ url: 'rebase' }),
+        //     require('autoprefixer')(),
+        //     require('postcss-reporter')()
+        // ],
 
         // js
         browserJs: require('enb-js/techs/browser-js'),
@@ -32,6 +32,7 @@ const techs = {
         bemjsonToHtml: require('enb-bemxjst/techs/bemjson-to-html')
     },
     enbBemTechs = require('enb-bem-techs'),
+    stylusTech = require('enb-stylus/techs/stylus'),
     levels = [
         { path: 'node_modules/bem-core/common.blocks', check: false },
         { path: 'node_modules/bem-core/desktop.blocks', check: false },
@@ -56,11 +57,11 @@ module.exports = function(config) {
             [enbBemTechs.files],
 
             // css
-            [techs.postcss, {
-                target: '?.css',
-                oneOfSourceSuffixes: ['post.css', 'css'],
-                plugins: techs.postcssPlugins
-            }],
+            // [techs.postcss, {
+            //     target: '?.css',
+            //     oneOfSourceSuffixes: ['post.css', 'css'],
+            //     plugins: techs.postcssPlugins
+            // }],
 
             // bemtree
             // [techs.bemtree, { sourceSuffixes: ['bemtree', 'bemtree.js'] }],
@@ -109,6 +110,15 @@ module.exports = function(config) {
             [techs.borschik, { source: '?.css', target: '?.min.css', minify: isProd }]
         ]);
 
-        nodeConfig.addTargets([/* '?.bemtree.js', */ '?.html', '?.min.css', '?.min.js']);
+        nodeConfig.addTech([stylusTech, {
+            // target: '?.css',
+            // filesTarget: '?.files',
+            // sourceSuffixes: ['.styl', '.css'],
+            // url: 'rebase'
+            // imports: 'include',
+            // comments: true
+        }]);
+
+        nodeConfig.addTargets([/* '?.bemtree.js', */ '?.html', '?.min.css', '?.min.js', '?.css']);
     });
 };
